@@ -1,0 +1,10 @@
+name               jlinkhelloworldapp
+startup            java
+java_app_class     jlinkhelloworld
+java_app_start     startApp
+java_app_stop      stopApp
+allow_stop         true
+delay_start        false
+text_dir           C:/Users/Frosty/Documents/NetBeansProjects/jlinkhelloworld/text
+java_app_classpath C:/Users/Frosty/Documents/NetBeansProjects/jlinkhelloworld/build/classes
+end

@@ -1,0 +1,16 @@
+JLHW Btn1 Label
+Goekhan SCHAMAN JLink Hello World
+#
+#
+JLHW Btn1 Help
+Run the JLink Hello World Application
+#
+#
+JLHW %s
+%0s
+#
+#
+JLHW Btn1 icon
+C:\apps\JLinkHelloWorld\text\usascii\resource\calculator_large.png
+#
+#

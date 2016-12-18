@@ -7,6 +7,8 @@ import com.ptc.pfc.pfcGlobal.*;
 import com.ptc.pfc.pfcModel.*;
 import com.ptc.pfc.pfcSession.*;
 import java.io.*;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class jlinkhelloworld {
 
@@ -93,6 +95,7 @@ public class jlinkhelloworld {
     // Perform some steps when shutting down the application
     //
     public void shutdownApplication () throws Exception {
+        
         writeLog("Application '" + programName + "' stopped");
         closeLog();
     }
@@ -143,7 +146,8 @@ public class jlinkhelloworld {
             mesg = "Hello! The model is: " + model.GetFileName();
         }
         DisplayMessage(mesg);
-   
+        MainFrame screen=new MainFrame();
+        screen.setVisible(true);
     }
 
     // Inner class for UI Command Listener
@@ -162,5 +166,8 @@ public class jlinkhelloworld {
             }
         }
 
+    }
+    public void changeDiameter(String message){
+        //JOptionPane.showMessageDialog(null, message, "Sonuç" , JOptionPane.INFORMATION_MESSAGE);
     }
 }

@@ -1,3 +1,8 @@
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,8 +18,12 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
-    public MainFrame() {
+    public MainFrame() throws Exception {
         initComponents();
+        //jlinkhelloworld mjlink=new jlinkhelloworld();
+        //jTextField1.setToolTipText(String.valueOf(mjlink.getDiameter(DiameterType.INNER)));
+        //jTextField2.setToolTipText(String.valueOf(mjlink.getDiameter(DiameterType.OUTER)));
+        
     }
 
     /**
@@ -124,6 +133,13 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
+        try{
+            jlinkhelloworld mjlink=new jlinkhelloworld();
+            jTextField1.setText(String.valueOf(mjlink.getDiameter(DiameterType.INNER)));
+            jTextField2.setText(String.valueOf(mjlink.getDiameter(DiameterType.OUTER)));
+        }
+        catch(Exception e){}
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -135,6 +151,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         jlinkhelloworld gg=new jlinkhelloworld();
         gg.changeDiameter("Botton is run..");
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -167,7 +184,11 @@ public class MainFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainFrame().setVisible(true);
+                try {
+                    new MainFrame().setVisible(true);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Sonuç" , JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         });
     }

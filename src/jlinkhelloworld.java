@@ -5,6 +5,8 @@ import com.ptc.cipjava.*;
 import com.ptc.pfc.pfcCommand.*;
 import com.ptc.pfc.pfcGlobal.*;
 import com.ptc.pfc.pfcModel.*;
+import com.ptc.pfc.pfcModelItem.ParamValue;
+import com.ptc.pfc.pfcModelItem.Parameter;
 import com.ptc.pfc.pfcSession.*;
 import java.io.*;
 import javax.swing.JFrame;
@@ -170,4 +172,26 @@ public class jlinkhelloworld {
     public void changeDiameter(String message){
         //JOptionPane.showMessageDialog(null, message, "Sonuç" , JOptionPane.INFORMATION_MESSAGE);
     }
+    public int getDiameter(DiameterType diameterType) throws Exception {
+        session = pfcGlobal.GetProESession();
+        Model model = session.GetCurrentModel();
+        switch (diameterType) {
+            case OUTER:
+            {
+                Parameter param=model.GetParam("DISCAP");
+                ParamValue paramVal=param.GetValue();
+                return paramVal.GetIntValue();
+            }
+            case INNER:
+            {
+                Parameter param=model.GetParam("ICCAP");
+                ParamValue paramVal=param.GetValue();
+                //JOptionPane.showMessageDialog(null, paramVal.GetIntValue(), "Sonuç" , JOptionPane.INFORMATION_MESSAGE);
+                return paramVal.GetIntValue();
+            }
+            default:
+                return 0;
+        }
+    
+}
 }

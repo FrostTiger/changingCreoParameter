@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Container class="javax.swing.JInternalFrame" name="jInternalFrame1">
       <Properties>
@@ -69,6 +69,9 @@
           </Border>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="try{&#xa;jlinkhelloworld mjlink=new jlinkhelloworld();&#xa;jTextField1.setText(String.valueOf(mjlink.getDiameter(DiameterType.INNER)));&#xa;jTextField2.setText(String.valueOf(mjlink.getDiameter(DiameterType.OUTER)));&#xa;}&#xa;catch(Exception e){}"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">

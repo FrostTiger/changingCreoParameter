@@ -1,1 +1,1 @@
-jlink_java_command C:\Program Files\Java\jdk1.8.0_92\bin\java.exe -Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n
+jlink_java_command C:\Program Files\Java\jdk1.7.0_25\bin\java.exe -Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n

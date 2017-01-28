@@ -7,19 +7,32 @@ import com.ptc.pfc.pfcGlobal.*;
 import com.ptc.pfc.pfcModel.*;
 import com.ptc.pfc.pfcModelItem.ParamValue;
 import com.ptc.pfc.pfcModelItem.Parameter;
+import com.ptc.pfc.pfcModelItem.pfcModelItem;
 import com.ptc.pfc.pfcSession.*;
+import com.ptc.pfc.pfcSolid.Solid;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 public class jlinkhelloworld {
 
     static jlinkhelloworld App = null;
+    Model model=null;
     String programName = null;
     Session session = null;
     FileWriter log = null;
     String msgFile = "msg_jlinkhelloworld.txt";
     String newline = null;
+    JTextField jtIc=null;
+    JTextField jtDis=null;
 
     // constructor
     //
@@ -148,8 +161,6 @@ public class jlinkhelloworld {
             mesg = "Hello! The model is: " + model.GetFileName();
         }
         DisplayMessage(mesg);
-        MainFrame screen=new MainFrame();
-        screen.setVisible(true);
     }
 
     // Inner class for UI Command Listener
@@ -160,8 +171,42 @@ public class jlinkhelloworld {
         //
         @Override
         public void OnCommand () {
+            
             try {
-                Btn1_callback();
+                //Btn1_callback();
+                session.SetConfigOption("regen_failure_handling", "resolve_mode"); 
+                 JDialog f = new JDialog();  
+                 JButton jb = new JButton("Değiştir");
+                 JLabel jl1=new JLabel("İç Çap:");
+                 JLabel jl2=new JLabel("Dış Çap:");
+                 jtIc=new JTextField(String.valueOf(getDiameter(DiameterType.INNER)));
+                 jtDis=new JTextField(String.valueOf(getDiameter(DiameterType.OUTER)));
+                 jb.addActionListener(new ActionListener() {  
+                 public void actionPerformed(ActionEvent e) {  
+                     try {
+                         changeDiameter(Integer.valueOf(jtDis.getText()), DiameterType.OUTER);
+                         changeDiameter(Integer.valueOf(jtIc.getText()), DiameterType.INNER);
+                     } catch (Exception ex) {
+                         try {
+                             DisplayMessage(ex.getMessage());
+                         } catch (Exception ex1) {
+                             Logger.getLogger(jlinkhelloworld.class.getName()).log(Level.SEVERE, null, ex1);
+                         }
+                     }
+                  
+                 }   
+                 });
+                 f.setAlwaysOnTop(true);
+                 f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                 f.setLayout(new FlowLayout(FlowLayout.LEFT));
+                 f.add(jl1);
+                 f.add(jtIc);
+                 f.add(jl2); 
+                 f.add(jtDis);
+                 f.add(jb);
+                 f.pack();  
+                 f.setModal(true);  
+                 f.setVisible(true);  
             }
             catch (Exception e) {
                 writeLog("Exception thrown by Btn1_callback method: " + e.toString());
@@ -169,24 +214,66 @@ public class jlinkhelloworld {
         }
 
     }
-    public void changeDiameter(String message){
-        //JOptionPane.showMessageDialog(null, message, "Sonuç" , JOptionPane.INFORMATION_MESSAGE);
+    public void kk(int cap,DiameterType diameterType) throws Exception{
+        changeDiameter(cap, diameterType);
     }
+    
+    //  The Method for Changing Diameter
+    //
+    public void changeDiameter(int cap,DiameterType diameterType) {
+        Parameter param=null;
+        try {
+            model = App.session.GetCurrentModel();
+            switch(diameterType){
+                case OUTER:
+                {
+                    param=this.model.GetParam("DISCAP");
+                    ParamValue paramVal= pfcModelItem.CreateIntParamValue(cap);
+                    param.SetValue(paramVal);
+                }
+                case INNER:
+                {
+                   param=this.model.GetParam("ICCAP");
+                    ParamValue paramVal= pfcModelItem.CreateIntParamValue(cap);
+                    param.SetValue(paramVal);
+                }
+            }
+        } catch (jxthrowable ex) {
+            ex.printStackTrace();
+        }
+        finally{
+            try {
+            
+        ((Solid) model).Regenerate(null);
+        model.Display();
+            } catch (jxthrowable ex) {
+                try {
+                    DisplayMessage(ex.getMessage());
+                } catch (Exception ex1) {
+                    Logger.getLogger(jlinkhelloworld.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            }
+
+        }
+        
+    }
+    //  The Method for getting diameter from 3D model
+    //
     public int getDiameter(DiameterType diameterType) throws Exception {
-        session = pfcGlobal.GetProESession();
-        Model model = session.GetCurrentModel();
+        model = App.session.GetCurrentModel();
         switch (diameterType) {
             case OUTER:
             {
                 Parameter param=model.GetParam("DISCAP");
                 ParamValue paramVal=param.GetValue();
+               model=null;
                 return paramVal.GetIntValue();
             }
             case INNER:
             {
                 Parameter param=model.GetParam("ICCAP");
                 ParamValue paramVal=param.GetValue();
-                //JOptionPane.showMessageDialog(null, paramVal.GetIntValue(), "Sonuç" , JOptionPane.INFORMATION_MESSAGE);
+                model=null;
                 return paramVal.GetIntValue();
             }
             default:

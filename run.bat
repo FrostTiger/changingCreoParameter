@@ -1,3 +1,7 @@
+@echo  off
+echo ---------------------------------------------
+echo Creo has been started with j-link option...
+echo ---------------------------------------------
 cd C:\Users\Frosty\Documents\NetBeansProjects\jlinkhelloworld
 del std.out
 del trail.txt.1
